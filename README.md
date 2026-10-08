@@ -3,7 +3,7 @@
 A cat-café concept and creative project. **Mousehold** is the lead brand; **Mousehold Cat Café**
 makes the idea clear. The name plays on "mouse" + "household" and evokes a cozy sanctuary.
 
-**Live:** https://yuxt.github.io/mousehold-cafe/ — currently a placeholder page.
+**Live:** https://mousehold.cafe/ — currently a placeholder page.
 
 ## Status
 
@@ -26,6 +26,7 @@ Captured as ideas, not deliverables:
 ```
 index.html   # placeholder page, single file, no dependencies or build step
 .nojekyll    # serve files as-is; skip GitHub's Jekyll processing
+CNAME        # GitHub Pages custom domain (mousehold.cafe)
 ```
 
 ## Local preview
@@ -43,4 +44,6 @@ GitHub Pages serves `main` at the repo root. Pushing to `main` publishes.
 
 ## Domain
 
-`mousehold.cafe` is registered at Namecheap and not yet pointed at this site.
+`mousehold.cafe` is registered at Namecheap, with DNS on Cloudflare. Two DNS-only CNAME records
+(`@` and `www`) point to `yuxt.github.io`. The `CNAME` file sets the GitHub Pages custom domain,
+HTTPS is enforced, and `www.mousehold.cafe` redirects to `mousehold.cafe`.
