@@ -79,22 +79,24 @@
   }
   .peek img { display: block; width: 100%; height: auto; }
 
-  /* open eyes, drawn over the sleeping face: he wakes, blinks once, and dozes off again */
+  /* open eyes, drawn over the sleeping face: he is mostly awake, blinks now and then, and takes a short doze */
   .peek .eyes {
     position: absolute;
     inset: 0;
-    opacity: 0;
-    animation: peek-awake 10s linear -4s infinite;
+    opacity: 1;
+    animation: peek-awake 12s linear -2.4s infinite;
   }
   @keyframes peek-awake {
-    0%, 60%   { opacity: 0; }   /* asleep */
-    61.5%     { opacity: 1; }   /* eyes open */
-    74%       { opacity: 1; }
-    75%, 76%  { opacity: 0; }   /* blink */
-    77%       { opacity: 1; }
-    89%       { opacity: 1; }
-    91.5%     { opacity: 0; }   /* drifts off */
-    100%      { opacity: 0; }
+    0%, 15%     { opacity: 0; }   /* short doze */
+    17%         { opacity: 1; }   /* wakes */
+    44%         { opacity: 1; }
+    45%, 45.8%  { opacity: 0; }   /* blink */
+    46.8%       { opacity: 1; }
+    70%         { opacity: 1; }
+    71%, 71.8%  { opacity: 0; }   /* blink */
+    72.8%       { opacity: 1; }
+    93%         { opacity: 1; }
+    96%, 100%   { opacity: 0; }   /* drifts off */
   }
   @media (prefers-reduced-motion: reduce) {
     .peek .eyes { animation: none; }
@@ -134,7 +136,7 @@
 
   <div class="peek">
     <img src="assets/sleeping-kitten.webp" width="548" height="375"
-         alt="A fluffy black kitten dozing with its chin and paws on top of the card">
+         alt="A fluffy black kitten peeking over the top of the card, chin and paws resting on its edge">
     <img class="eyes" src="assets/kitten-eyes-open.webp" width="548" height="375" alt="" aria-hidden="true">
   </div>
 
