@@ -28,7 +28,7 @@ index.html   # placeholder page, single file, no dependencies or build step
 .nojekyll    # serve files as-is; skip GitHub's Jekyll processing
 CNAME        # GitHub Pages custom domain (mousehold.cafe)
 assets/      # images used by the page: sleeping-kitten.webp sits on top of the card,
-             # kitten-eyes-open.webp fades in over it when he wakes and blinks
+             # kitten-eyes-open.webp is layered over it; he is mostly awake, blinks, and dozes briefly
 ```
 
 ## Local preview
