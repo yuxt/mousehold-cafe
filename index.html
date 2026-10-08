@@ -22,6 +22,10 @@
     --muted:   #7a7068;
     --accent:  #b2684a;
     --line:    #e6ddd1;
+    --mouse:   #9b8f86;
+    --mouse-2: #857a72;
+    --pink:    #e0a596;
+    --hole:    #2e2a26;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -31,6 +35,10 @@
       --muted:   #a89d92;
       --accent:  #e09472;
       --line:    #342f2a;
+      --mouse:   #b5aaa0;
+      --mouse-2: #9a8f86;
+      --pink:    #e3a596;
+      --hole:    #000;
     }
   }
 
@@ -41,7 +49,7 @@
     min-height: 100vh;
     display: grid;
     place-items: center;
-    padding: 2rem 1.25rem;
+    padding: 2rem 1.25rem 4.5rem;
     background: var(--bg);
     color: var(--ink);
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -84,7 +92,7 @@
     position: absolute;
     inset: 0;
     opacity: 1;
-    animation: peek-awake 12s linear -2.4s infinite;
+    animation: peek-awake 12s linear -9s infinite;
   }
   @keyframes peek-awake {
     0%, 15%     { opacity: 0; }   /* short doze */
@@ -98,8 +106,78 @@
     93%         { opacity: 1; }
     96%, 100%   { opacity: 0; }   /* drifts off */
   }
+  /* a mouse scurries along the bottom edge of the screen, left to right, into its hole.
+     Same 12s loop as the kitten: the run happens while he dozes. */
+  .floor {
+    --hole-w: 46px;
+    --hole-r: max(20px, 7vw);            /* gap between the hole and the right edge */
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 52px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hole {
+    position: absolute;
+    right: var(--hole-r);
+    bottom: 0;
+    width: var(--hole-w);
+    height: 36px;
+    display: block;
+  }
+  .hole path { fill: var(--hole); stroke: var(--line); stroke-width: 1.5; }
+  /* the track runs from the left edge of the screen to the middle of the hole */
+  .track {
+    position: absolute;
+    left: 0;
+    right: calc(var(--hole-r) + var(--hole-w) / 2 - 8px);
+    bottom: 0;
+    height: 100%;
+  }
+  .run {
+    position: absolute;
+    inset: 0;
+    transform: translateX(calc(-100% - 12px));
+    animation: mouse-run 12s linear 2.6s infinite backwards;
+  }
+  .mouse {
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+    width: 58px;
+    height: auto;
+    display: block;
+    overflow: visible;
+    transform-origin: 80% 100%;
+    animation: mouse-into-hole 12s linear 2.6s infinite backwards;
+  }
+  .mouse .body { fill: var(--mouse); }
+  .mouse .ear-back { fill: var(--mouse-2); }
+  .mouse .ear-in, .mouse .nose { fill: var(--pink); }
+  .mouse .eye { fill: var(--hole); }
+  .mouse .tail { fill: none; stroke: var(--pink); stroke-width: 2.2; stroke-linecap: round; }
+  .mouse .leg { stroke: var(--mouse-2); stroke-width: 3; stroke-linecap: round; transform-box: fill-box; transform-origin: 50% 0; }
+  .mouse .bob { animation: mouse-bob 0.2s ease-in-out infinite alternate; }
+  .mouse .leg.a { animation: mouse-leg 0.2s ease-in-out infinite alternate; }
+  .mouse .leg.b { animation: mouse-leg 0.2s ease-in-out infinite alternate-reverse; }
+  .mouse .tail { transform-box: fill-box; transform-origin: 100% 100%; animation: mouse-tail 0.4s ease-in-out infinite alternate; }
+
+  @keyframes mouse-run {
+    0%          { transform: translateX(calc(-100% - 12px)); }   /* just off the left edge */
+    15.5%, 100% { transform: translateX(0); }                    /* nose in the hole */
+  }
+  @keyframes mouse-into-hole {
+    0%, 15.5%   { opacity: 1; transform: translateX(0) scale(1); }
+    17.5%, 100% { opacity: 0; transform: translateX(14px) scale(0.3); }   /* slips into the dark */
+  }
+  @keyframes mouse-bob  { from { transform: translateY(0); }     to { transform: translateY(-1.5px); } }
+  @keyframes mouse-leg  { from { transform: rotate(-32deg); }    to { transform: rotate(32deg); } }
+  @keyframes mouse-tail { from { transform: rotate(-7deg); }     to { transform: rotate(9deg); } }
+
   @media (prefers-reduced-motion: reduce) {
     .peek .eyes { animation: none; }
+    .run { display: none; }              /* the hole stays; nobody runs */
   }
 
   .eyebrow {
@@ -154,5 +232,26 @@
   <p class="byline">A project of <strong>Vera</strong>. Meow.</p>
 
 </main>
+
+<div class="floor" aria-hidden="true">
+  <svg class="hole" viewBox="0 0 46 36"><path d="M1 37V22C1 10.4 10.8 1 23 1s22 9.4 22 21v15Z"/></svg>
+  <div class="track"><div class="run">
+    <svg class="mouse" viewBox="0 0 64 36">
+      <path class="tail" d="M15 25C7 26 1 20 4 12"/>
+      <line class="leg a" x1="22" y1="28" x2="22" y2="34"/>
+      <line class="leg b" x1="27" y1="28" x2="27" y2="34"/>
+      <line class="leg b" x1="43" y1="28" x2="43" y2="34"/>
+      <line class="leg a" x1="48" y1="28" x2="48" y2="34"/>
+      <g class="bob">
+        <circle class="ear-back" cx="38" cy="11" r="5.5"/>
+        <path class="body" d="M13 23C13 14 25 9.500 38 11.500C48 13 57 18 61.500 23C57 28 46 31 34 31C22 31 13 29.500 13 23Z"/>
+        <circle class="body" cx="44" cy="11.500" r="6.500"/>
+        <circle class="ear-in" cx="44" cy="11.500" r="3.800"/>
+        <circle class="eye" cx="52" cy="19" r="1.600"/>
+        <circle class="nose" cx="61.500" cy="23" r="1.800"/>
+      </g>
+    </svg>
+  </div></div>
+</div>
 </body>
 </html>
