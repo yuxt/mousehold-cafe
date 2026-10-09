@@ -94,7 +94,7 @@
   .tail {
     position: absolute;
     top: calc(100% - 10px);              /* the cut end tucks behind the card */
-    left: 64%;
+    left: calc(50% - var(--peek-w) * 0.16);   /* centred under the card */
     width: calc(var(--peek-w) * 0.32);
     aspect-ratio: 140 / 276;
     z-index: -1;
