@@ -219,9 +219,16 @@
   .byline strong { color: var(--ink); font-weight: 600; }
 
   @media (max-width: 600px) {
+    body { min-height: 100svh; place-items: start center; padding: 1.25rem 1.25rem 3rem; }
     body::before { display: none; }
-    .card { padding-block: 1.5rem; }
+    main {
+      --peek-w: min(170px, 44vw);
+      margin-top: calc(var(--peek-w) * 0.72);
+      margin-bottom: calc(var(--peek-w) * 0.3);
+    }
+    .card { padding-block: 1.125rem; }
     .tagline { margin-bottom: 0.75rem; }
+    .byline { margin-top: 0.875rem; }
     hr { display: none; }
   }
 </style>
