@@ -69,9 +69,11 @@
 
   main {
     --peek-w: min(220px, 52vw);
+    --logo-w: 75vw;                      /* the logo spans three quarters of the page */
+    --pad-x: clamp(1.25rem, 5vw, 2.5rem);
     position: relative;
-    width: 100%;
-    max-width: 34rem;
+    /* wide enough to hold the logo; on small screens it just fills the page */
+    width: min(100%, max(34rem, calc(var(--logo-w) + 2 * var(--pad-x) + 2px)));
     /* room for the kitten above the card, so the pair stays centred and is never clipped */
     margin-top: calc(var(--peek-w) * 0.65);
     /* and room below it for his tail */
@@ -83,7 +85,7 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 1.25rem;
-    padding: clamp(2rem, 6vw, 3.25rem) clamp(1.25rem, 5vw, 2.5rem);
+    padding: clamp(2rem, 6vw, 3.25rem) var(--pad-x);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.12);
   }
 
@@ -199,32 +201,21 @@
     .run { display: none; }                       /* the hole stays; nobody runs */
   }
 
-  .eyebrow {
-    margin: 0 0 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
+  /* the Mousehold logo is the page title */
+  .logo { margin: 0 0 1.25rem; line-height: 0; }
+  .logo img { display: block; width: var(--logo-w); max-width: 100%; height: auto; margin: 0 auto; }
 
-  h1 {
-    margin: 0 0 0.75rem;
-    font-family: ui-serif, Georgia, "Times New Roman", serif;
-    font-size: clamp(2rem, 8vw, 2.75rem);
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
-  }
+  /* the text below keeps a comfortable reading width however wide the card gets */
+  .tagline, hr, .note, .byline { max-width: 32rem; margin-left: auto; margin-right: auto; }
 
-  .tagline { margin: 0 0 1.75rem; font-size: 1.0625rem; color: var(--muted); }
+  .tagline { margin-top: 0; margin-bottom: 1.75rem; font-size: 1.0625rem; color: var(--muted); }
 
-  hr { border: 0; border-top: 1px solid var(--line); margin: 0 0 1.75rem; }
+  hr { border: 0; border-top: 1px solid var(--line); margin-top: 0; margin-bottom: 1.75rem; }
 
-  .note { margin: 0; font-size: 0.9375rem; color: var(--muted); }
+  .note { margin-top: 0; margin-bottom: 0; font-size: 0.9375rem; color: var(--muted); }
   .note strong { color: var(--ink); font-weight: 600; }
 
-  .byline { margin: 1.25rem 0 0; font-size: 0.9375rem; color: var(--muted); }
+  .byline { margin-top: 1.25rem; margin-bottom: 0; font-size: 0.9375rem; color: var(--muted); }
   .byline strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
@@ -240,8 +231,12 @@
     <img src="assets/kitten-tail.webp" width="1400" height="2208" alt="">
   </div></div>
 
-  <p class="eyebrow">Mousehold</p>
-  <h1>Mousehold Cat&nbsp;Café</h1>
+  <h1 class="logo">
+    <picture>
+      <source srcset="assets/mousehold-logo-light.svg" media="(prefers-color-scheme: dark)">
+      <img src="assets/mousehold-logo.svg" width="1727" height="435" alt="Mousehold Cat Café">
+    </picture>
+  </h1>
   <p class="tagline">A cozy sanctuary for cats and&nbsp;the people who love&nbsp;them.</p>
 
   <hr>

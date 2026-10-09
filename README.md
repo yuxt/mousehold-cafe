@@ -33,6 +33,8 @@ assets/      # images used by the page:
              #   kitten-tail.webp       80-frame sprite sheet (10 x 8); his tail sways under the card
              #   mouse-run.webp         24-frame sprite sheet (6 x 4); the mouse that runs to its hole
              #   cat-pattern.webp       tiled page background of cat outlines (cat-pattern-dark.webp in dark mode)
+             #   mousehold-logo.svg     the logo, used as the page title at 75% of the page width
+             #                          (mousehold-logo-light.svg in dark mode); traced from the logo PNG
 ```
 
 ## Local preview
