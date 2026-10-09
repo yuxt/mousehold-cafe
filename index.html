@@ -217,6 +217,13 @@
 
   .byline { margin-top: 1.25rem; margin-bottom: 0; font-size: 0.9375rem; color: var(--muted); }
   .byline strong { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 600px) {
+    body::before { display: none; }
+    .card { padding-block: 1.5rem; }
+    .tagline { margin-bottom: 0.75rem; }
+    hr { display: none; }
+  }
 </style>
 </head>
 <body>
