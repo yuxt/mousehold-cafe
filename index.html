@@ -23,6 +23,7 @@
     --accent:  #b2684a;
     --line:    #e6ddd1;
     --hole:    #2e2a26;
+    --tile:    url("assets/cat-pattern.webp");
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -33,6 +34,7 @@
       --accent:  #e09472;
       --line:    #342f2a;
       --hole:    #000;
+      --tile:    url("assets/cat-pattern-dark.webp");
     }
   }
 
@@ -44,7 +46,8 @@
     display: grid;
     place-items: center;
     padding: 2rem 1.25rem 4.5rem;
-    background: var(--bg);
+    /* wallpaper of little cat outlines, tiled across the whole page */
+    background: var(--bg) var(--tile) center top / 627px auto repeat;
     color: var(--ink);
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;

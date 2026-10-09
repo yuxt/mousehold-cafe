@@ -32,6 +32,7 @@ assets/      # images used by the page:
              #   kitten-eyes-open.webp  layered over it; he is mostly awake, blinks, and dozes briefly
              #   kitten-tail.webp       80-frame sprite sheet (10 x 8); his tail sways under the card
              #   mouse-run.webp         24-frame sprite sheet (6 x 4); the mouse that runs to its hole
+             #   cat-pattern.webp       tiled page background of cat outlines (cat-pattern-dark.webp in dark mode)
 ```
 
 ## Local preview
