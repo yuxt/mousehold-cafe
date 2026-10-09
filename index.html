@@ -22,9 +22,6 @@
     --muted:   #7a7068;
     --accent:  #b2684a;
     --line:    #e6ddd1;
-    --mouse:   #9b8f86;
-    --mouse-2: #857a72;
-    --pink:    #e0a596;
     --hole:    #2e2a26;
   }
   @media (prefers-color-scheme: dark) {
@@ -35,9 +32,6 @@
       --muted:   #a89d92;
       --accent:  #e09472;
       --line:    #342f2a;
-      --mouse:   #b5aaa0;
-      --mouse-2: #9a8f86;
-      --pink:    #e3a596;
       --hole:    #000;
     }
   }
@@ -64,6 +58,8 @@
     max-width: 34rem;
     /* room for the kitten above the card, so the pair stays centred and is never clipped */
     margin-top: calc(var(--peek-w) * 0.65);
+    /* and room below it for his tail */
+    margin-bottom: calc(var(--peek-w) * 0.58);
     text-align: center;
   }
 
@@ -87,6 +83,25 @@
   }
   .peek img { display: block; width: 100%; height: auto; }
 
+  /* Sprite sheets: a grid of animation frames shown one at a time. The image steps
+     sideways through a row while its wrapper steps down through the rows. */
+  .sprite { overflow: hidden; pointer-events: none; user-select: none; }
+  .sprite img { display: block; height: auto; max-width: none; }
+  @keyframes sprite-x { to { transform: translateX(-100%); } }
+  @keyframes sprite-y { to { transform: translateY(-100%); } }
+
+  /* his tail hangs out from behind the bottom edge of the card and sways */
+  .tail {
+    position: absolute;
+    top: calc(100% - 10px);              /* the cut end tucks behind the card */
+    left: 64%;
+    width: calc(var(--peek-w) * 0.32);
+    aspect-ratio: 140 / 276;
+    z-index: -1;
+  }
+  .tail .rows { animation: sprite-y 4s steps(8) infinite; }
+  .tail img   { width: 1000%; animation: sprite-x 0.5s steps(10) infinite; }   /* 10 x 8 frames */
+
   /* open eyes, drawn over the sleeping face: he is mostly awake, blinks now and then, and takes a short doze */
   .peek .eyes {
     position: absolute;
@@ -109,11 +124,11 @@
   /* a mouse scurries along the bottom edge of the screen, left to right, into its hole.
      Same 12s loop as the kitten: the run happens while he dozes. */
   .floor {
-    --hole-w: 46px;
+    --hole-w: 58px;
     --hole-r: max(20px, 7vw);            /* gap between the hole and the right edge */
     position: fixed;
     left: 0; right: 0; bottom: 0;
-    height: 52px;
+    height: 76px;
     overflow: hidden;
     pointer-events: none;
     z-index: 1;
@@ -123,7 +138,7 @@
     right: var(--hole-r);
     bottom: 0;
     width: var(--hole-w);
-    height: 36px;
+    height: 50px;
     display: block;
   }
   .hole path { fill: var(--hole); stroke: var(--line); stroke-width: 1.5; }
@@ -144,24 +159,14 @@
   .mouse {
     position: absolute;
     right: 0;
-    bottom: 1px;
-    width: 58px;
-    height: auto;
-    display: block;
-    overflow: visible;
-    transform-origin: 80% 100%;
+    bottom: 0;
+    width: 104px;
+    aspect-ratio: 208 / 112;
+    transform-origin: 85% 100%;
     animation: mouse-into-hole 12s linear 2.6s infinite backwards;
   }
-  .mouse .body { fill: var(--mouse); }
-  .mouse .ear-back { fill: var(--mouse-2); }
-  .mouse .ear-in, .mouse .nose { fill: var(--pink); }
-  .mouse .eye { fill: var(--hole); }
-  .mouse .tail { fill: none; stroke: var(--pink); stroke-width: 2.2; stroke-linecap: round; }
-  .mouse .leg { stroke: var(--mouse-2); stroke-width: 3; stroke-linecap: round; transform-box: fill-box; transform-origin: 50% 0; }
-  .mouse .bob { animation: mouse-bob 0.2s ease-in-out infinite alternate; }
-  .mouse .leg.a { animation: mouse-leg 0.2s ease-in-out infinite alternate; }
-  .mouse .leg.b { animation: mouse-leg 0.2s ease-in-out infinite alternate-reverse; }
-  .mouse .tail { transform-box: fill-box; transform-origin: 100% 100%; animation: mouse-tail 0.4s ease-in-out infinite alternate; }
+  .mouse .rows { animation: sprite-y 1.2s steps(4) infinite; }
+  .mouse img   { width: 600%; animation: sprite-x 0.3s steps(6) infinite; }    /* 6 x 4 frames */
 
   @keyframes mouse-run {
     0%          { transform: translateX(calc(-100% - 12px)); }   /* just off the left edge */
@@ -171,13 +176,11 @@
     0%, 15.5%   { opacity: 1; transform: translateX(0) scale(1); }
     17.5%, 100% { opacity: 0; transform: translateX(14px) scale(0.3); }   /* slips into the dark */
   }
-  @keyframes mouse-bob  { from { transform: translateY(0); }     to { transform: translateY(-1.5px); } }
-  @keyframes mouse-leg  { from { transform: rotate(-32deg); }    to { transform: rotate(32deg); } }
-  @keyframes mouse-tail { from { transform: rotate(-7deg); }     to { transform: rotate(9deg); } }
 
   @media (prefers-reduced-motion: reduce) {
     .peek .eyes { animation: none; }
-    .run { display: none; }              /* the hole stays; nobody runs */
+    .tail .rows, .tail img { animation: none; }   /* the tail hangs still */
+    .run { display: none; }                       /* the hole stays; nobody runs */
   }
 
   .eyebrow {
@@ -217,6 +220,9 @@
          alt="A fluffy black kitten peeking over the top of the card, chin and paws resting on its edge">
     <img class="eyes" src="assets/kitten-eyes-open.webp" width="548" height="375" alt="" aria-hidden="true">
   </div>
+  <div class="tail sprite" aria-hidden="true"><div class="rows">
+    <img src="assets/kitten-tail.webp" width="1400" height="2208" alt="">
+  </div></div>
 
   <p class="eyebrow">Mousehold</p>
   <h1>Mousehold Cat&nbsp;Café</h1>
@@ -234,23 +240,11 @@
 </main>
 
 <div class="floor" aria-hidden="true">
-  <svg class="hole" viewBox="0 0 46 36"><path d="M1 37V22C1 10.4 10.8 1 23 1s22 9.4 22 21v15Z"/></svg>
+  <svg class="hole" viewBox="0 0 58 50"><path d="M1 51V29C1 13.500 13.500 1 29 1s28 12.500 28 28v22Z"/></svg>
   <div class="track"><div class="run">
-    <svg class="mouse" viewBox="0 0 64 36">
-      <path class="tail" d="M15 25C7 26 1 20 4 12"/>
-      <line class="leg a" x1="22" y1="28" x2="22" y2="34"/>
-      <line class="leg b" x1="27" y1="28" x2="27" y2="34"/>
-      <line class="leg b" x1="43" y1="28" x2="43" y2="34"/>
-      <line class="leg a" x1="48" y1="28" x2="48" y2="34"/>
-      <g class="bob">
-        <circle class="ear-back" cx="38" cy="11" r="5.5"/>
-        <path class="body" d="M13 23C13 14 25 9.500 38 11.500C48 13 57 18 61.500 23C57 28 46 31 34 31C22 31 13 29.500 13 23Z"/>
-        <circle class="body" cx="44" cy="11.500" r="6.500"/>
-        <circle class="ear-in" cx="44" cy="11.500" r="3.800"/>
-        <circle class="eye" cx="52" cy="19" r="1.600"/>
-        <circle class="nose" cx="61.500" cy="23" r="1.800"/>
-      </g>
-    </svg>
+    <div class="mouse sprite"><div class="rows">
+      <img src="assets/mouse-run.webp" width="1248" height="448" alt="">
+    </div></div>
   </div></div>
 </div>
 </body>
